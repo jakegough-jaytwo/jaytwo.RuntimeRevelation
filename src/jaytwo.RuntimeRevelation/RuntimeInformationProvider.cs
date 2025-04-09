@@ -9,7 +9,6 @@ namespace jaytwo.RuntimeRevelation
 {
     internal class RuntimeInformationProvider : IRuntimeInformationProvider
     {
-#if NETSTANDARD
         public Architecture GetProcessArchitecture()
         {
             switch (System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture)
@@ -46,52 +45,5 @@ namespace jaytwo.RuntimeRevelation
                 return OSPlatform.Unknown;
             }
         }
-
-#else
-        public Architecture GetProcessArchitecture()
-        {
-            // help from: https://stackoverflow.com/a/25284569
-
-            typeof(object).Module.GetPEKind(out PortableExecutableKinds peKind, out ImageFileMachine machine);
-
-            switch (machine)
-            {
-                case ImageFileMachine.AMD64:
-                case ImageFileMachine.IA64:
-                    return Architecture.X64;
-
-                case ImageFileMachine.I386:
-                    return Architecture.X86;
-
-                case ImageFileMachine.ARM:
-                    if (System.Environment.Is64BitOperatingSystem)
-                    {
-                        return Architecture.ARM64;
-                    }
-                    else
-                    {
-                        return Architecture.ARM;
-                    }
-
-                default:
-                    return Architecture.Unknown;
-            }
-        }
-
-        public OSPlatform GetOSPlatform()
-        {
-            switch (Environment.OSVersion.Platform)
-            {
-                case PlatformID.MacOSX:
-                    return OSPlatform.OSX;
-                case PlatformID.Win32Windows:
-                    return OSPlatform.Windows;
-                case PlatformID.Unix:
-                    return OSPlatform.Linux;
-                default:
-                    return OSPlatform.Unknown;
-            }
-        }
-#endif
     }
 }
