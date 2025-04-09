@@ -1,6 +1,6 @@
 TOPDIR=$(shell pwd)
 
-BUILD_SLN=jaytwo.RuntimeRevelation.sln
+BUILD_SLN=./jaytwo.RuntimeRevelation.sln
 BUILD_DIR=./src/jaytwo.RuntimeRevelation
 BUILD_TEST_DIR=./test/jaytwo.RuntimeRevelation.Tests
 BUILD_TRX_FILENAME=jaytwo.RuntimeRevelation.Tests.trx
@@ -101,7 +101,7 @@ docker-clean:
 	docker rmi ${DOCKER_TAG} && echo "Image removed: ${DOCKER_TAG}" || echo "Nothing to clean up for: ${DOCKER_TAG}"
 
 define getDockerTag
-$(shell echo '$(basename $(1))' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g')
+$(shell echo '$(basename $(1))' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/^_*//')
 endef
 
 define getTimestamp
