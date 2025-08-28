@@ -1,4 +1,4 @@
 library 'JenkinsBuilderLibrary'
 
-helper.loadNuGetProjectDefaults('jaytwo.RuntimeRevelation')
-helper.runNuGetProject()
+nugetProject.build(
+    gitHubRepository: 'jaytwo.RuntimeRevelation')
